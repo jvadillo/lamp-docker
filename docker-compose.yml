@@ -1,0 +1,36 @@
+version: "3"
+services:
+    webserver:
+        build: .
+        restart: always
+        container_name: lamp_server
+        ports: 
+            - "8080:80"
+        volumes:
+            - ./src:/var/www/html/
+        depends_on:
+            - database
+        networks:
+            - default
+    database:
+        image: mysql:8.0.31
+        ports: 
+            - "3306:3306"
+        restart: always
+        environment:
+            MYSQL_DATABASE: db1
+            MYSQL_USER: db1
+            MYSQL_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links: 
+            - database:database
+        ports:
+            - 8000:80
+        environment:
+            MYSQL_USER: db1
+            MYSQL_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test
+volumes:
+    persistent:
