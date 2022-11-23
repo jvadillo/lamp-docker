@@ -2,7 +2,7 @@ version: "3"
 services:
     webserver:
         build: . # Utiliza el Dockerfile incluido en este mismo directorio.
-        restart: always
+        restart: unless-stopped # No se reiniciará cuando ejecutemos el comando docker stop.
         ports: 
             - "8080:80" # EL puerto interno (del container) 80 será accesible en el puerto 8080 del host.
         volumes:
@@ -15,7 +15,7 @@ services:
         image: mysql:8.0.31
         ports: 
             - "3306:3306"
-        restart: always
+        restart: unless-stopped
         environment: # Pasamos al container variables de entorno:
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}
