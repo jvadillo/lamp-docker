@@ -1,15 +1,14 @@
 version: "3"
 services:
     webserver:
-        build: .
+        build: . # Utiliza el Dockerfile incluido en este mismo directorio.
         restart: always
-        container_name: lamp_server
         ports: 
-            - "8080:80"
+            - "8080:80" # EL puerto interno (del container) 80 será accesible en el puerto 8080 del host.
         volumes:
-            - ./src:/var/www/html/
+            - ./src:/var/www/html/ # El container sincronizará la carpeta src del host con /var/www/html/ del container.
         depends_on:
-            - database
+            - database # Primero deberá arrancar el container database
         networks:
             - default
     database:
@@ -17,14 +16,14 @@ services:
         ports: 
             - "3306:3306"
         restart: always
-        environment:
+        environment: # Pasamos al container variables de entorno:
             MYSQL_DATABASE: db1
             MYSQL_USER: db1
             MYSQL_PASSWORD: test
             MYSQL_ROOT_PASSWORD: test
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        links: 
+        links: # Ya no es necesario, desde la v2 pueden comunicarse con otros containers utilizando su nombre.
             - database:database
         ports:
             - 8000:80
