@@ -21,6 +21,8 @@ services:
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        volumes:
+            - dbdata:/var/lib/mysql # Guardamos los datos de la base de datos en el volumen dbdata, así no se perderá aunque se borre el contenedor.
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         links: # Ya no es necesario, desde la v2 pueden comunicarse con otros containers utilizando su nombre.
@@ -32,4 +34,4 @@ services:
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 volumes:
-    persistent:
+    dbdata:
