@@ -8,3 +8,5 @@ RUN apt-get update \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 # Override docker-php.conf used by Apache. New file includes Options Indexes option.
 COPY ./docker-php.conf /etc/apache2/conf-enabled/docker-php.conf
+# Configure php.ini to display errors:
+RUN cp /usr/local/etc/php/php.ini-development /usr/local/etc/php/php.ini
